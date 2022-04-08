@@ -563,21 +563,30 @@
   "Minor mode for Copilot."
   :init-value nil
   :lighter " Copilot"
-  (add-hook 'post-command-hook 'copilot--complete-post-command))
+  (add-hook 'post-command-hook 'copilot--complete-post-command)
+  )
+
+;; (defun copilot--complete-post-command ()
+;;   "Complete in post-command hook."
+;;   (when copilot-mode
+;;     (unless (and (symbolp this-command)
+;;                  (s-starts-with-p "copilot-" (symbol-name this-command)))
+;;       (copilot-clear-overlay)
+;;       (when (and (cl-every (lambda (pred)
+;;                              (if (functionp pred) (funcall pred) t))
+;;                           copilot-enable-predicates)
+;;                  (cl-notany (lambda (pred)
+;;                               (if (functionp pred) (funcall pred) f))
+;;                             copilot-disable-predicates))
+;;         (copilot-complete)))))
 
 (defun copilot--complete-post-command ()
   "Complete in post-command hook."
   (when copilot-mode
     (unless (and (symbolp this-command)
                  (s-starts-with-p "copilot-" (symbol-name this-command)))
-      (copilot-clear-overlay)
-      (when (and (cl-every (lambda (pred)
-                             (if (functionp pred) (funcall pred) t))
-                          copilot-enable-predicates)
-                 (cl-notany (lambda (pred)
-                              (if (functionp pred) (funcall pred) f))
-                            copilot-disable-predicates))
-          (copilot-complete)))))
+      (copilot-clear-overlay))))
+
 
 (provide 'copilot)
 ;;; copilot.el ends here
